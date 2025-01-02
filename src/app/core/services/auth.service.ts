@@ -8,7 +8,7 @@ import {BehaviorSubject, Observable, tap} from "rxjs";
 })
 export class AuthService {
 
-  private readonly API_URL = 'http://localhost:8443/api/v1/auth/';
+  private readonly API_URL = 'http://localhost:8443/api/v1/auth';
   private userSubject = new BehaviorSubject<User | null>(null);
   user$ = this.userSubject.asObservable();
 
@@ -28,8 +28,8 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.API_URL}/authenticate`, credentials)
       .pipe(
         tap(response => {
-          localStorage.setItem('token', response.accessToken);
-          this.userSubject.next({ email: response.email });
+          localStorage.setItem('token', response.token);
+          console.log('Token stored in localStorage:', response.token);
         })
       );
   }
